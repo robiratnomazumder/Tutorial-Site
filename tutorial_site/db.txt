@@ -1,0 +1,61 @@
+CREATE DATABASE IF NOT EXISTS bankdb DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE bankdb;
+
+CREATE TABLE account_types (
+  `typeId` int(11) NOT NULL,
+  `typeName` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO account_types (typeId, typeName) VALUES
+(1, 'Savings'),
+(2, 'Fixed');
+
+CREATE TABLE accounts (
+  `accId` int(11) NOT NULL,
+  `accNo` varchar(20) NOT NULL,
+  `accName` varchar(50) NOT NULL,
+  `balance` double NOT NULL,
+  `lastTransaction` datetime NOT NULL,
+  `typeId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO accounts (accId, accNo, accName, balance, lastTransaction, typeId) VALUES
+(2, '102.112.23456', 'PQR', 500, '2017-10-15 06:33:39', 2),
+(3, '123.121.34567', 'DEF', 1000, '2017-10-15 06:34:26', 2),
+(4, '123.123.45678', 'GHI', 1200, '2017-10-15 06:40:45', 1),
+(5, '101.123.12345', 'ABC XYZ', 1500, '2017-10-15 07:44:00', 1),
+(6, '121.112.34234', 'ABC DEF', 2500, '2017-10-15 13:45:10', 2),
+(7, '234.123.45678', 'ABCDEFGH', 500, '2017-10-17 12:56:39', 1),
+(8, '103.112.23456', 'IMRAN', 5000, '2017-10-17 13:10:48', 1),
+(9, '123.112.21234', 'JOHN', 1200, '2017-10-17 14:51:43', 2);
+
+CREATE TABLE users (
+  `userId` int(11) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `type` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO users (userId, username, `password`, `type`) VALUES
+(1, 'admin', 'admin', 'Admin'),
+(2, 'user', 'user', 'User');
+
+
+ALTER TABLE account_types
+  ADD PRIMARY KEY (`typeId`);
+
+ALTER TABLE accounts
+  ADD PRIMARY KEY (`accId`),
+  ADD UNIQUE KEY `accNo` (`accNo`);
+
+ALTER TABLE users
+  ADD PRIMARY KEY (`userId`),
+  ADD UNIQUE KEY `username` (`username`);
+
+
+ALTER TABLE account_types
+  MODIFY `typeId` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE accounts
+  MODIFY `accId` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE users
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT;
